@@ -1,6 +1,3 @@
-// COMPANY
-// Square Nest Research Labs
-
 ///////////////////////////////////////////////////////
 // SIGNATURE
 /*
@@ -12,10 +9,11 @@ const testText = `Ingate – крупнейший Digital Marketing Integrator, 
 Компания основана в 2000 году, насчитывает более 700 сотрудников. Успешно реализовала более 7000 проектов с известными российскими и международными брендами.
 Основной вектор развития Ingate — скорость. Быть самой быстрой на рынке компании помогают основные ценности: ЭКСПЕРТИЗА, ЗАБОТА И ТЕХНОЛОГИИ, которые ведут к высокой скорости любых процессов.`;
 
-// normalization (trims starting and ending spaces)
+// RegExp for normalization (trims starting and ending spaces)
 const regExpSpaces = /^\s{1,}|\s{1,}$/g;
 
 const fetchFragment = (text, index) => {
+  // initial values
   let result = '';
   let serviceIndex = 0;
   let validity = false;
@@ -83,7 +81,7 @@ const fetchFragment = (text, index) => {
 // NOTE: uncomment case for checking how the function works
 /////////////////////////////////////////////////////////
 // CASE: string with initial and trailing whitespace symbols
-//fetchFragment('   Several drinks make me like a mad monkey!   ', 10);
+fetchFragment('   Several drinks make me like a mad monkey!   ', 10);
 
 
 // CASE: text with several lines
