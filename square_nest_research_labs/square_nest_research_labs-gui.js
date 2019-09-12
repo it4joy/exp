@@ -22,10 +22,9 @@ $(function() {
     // small ui features
     positionInput.on('input', function() {
         getFragmentBtn.attr('disabled', false);
-        // deletes former result
+        // deletes former result in result's textarea
         if ( resultArea.val().length > 0 ) {
             resultArea.val('');
-            result = '';
         }
     });
 
@@ -36,19 +35,17 @@ $(function() {
     });
 
     getFragmentBtn.on('click', function() {
+        // cleaning
         if ( resultArea.val().length > 0 ) {
             resultArea.val('');
-            result = '';
         }
+        result = '';
+        positionInputVal, serviceIndex = 0;
 
         // gets current text
         textAreaVal = textArea.val();
 
-        if ( typeof(textAreaVal) === 'string' ) {
-            textAreaVal = textAreaVal.replace(regExpSpaces, '');
-        } else {
-            alert('The 1st argument must be a string.');
-        }
+        textAreaVal = textAreaVal.replace(regExpSpaces, '');
 
         // index of the last symbol after normalization
         const lastSymIndex = textAreaVal.length - 1;
