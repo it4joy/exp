@@ -67,9 +67,16 @@ const fetchFragment = (text, index) => {
         result += text[i];
       }
     } else {
-      // gets fragment starting of the right of index
-      for (let i = index + 1; i <= lastSymIndex; ++i) {
-        result += text[i];
+      let i = 0;
+      
+      if (index === lastSymIndex) {
+        i = index;
+      } else {
+        i = index + 1;
+      }
+      // gets fragment starting of the right of index (if index !== lastSymIndex) and directly starting from index in another case
+      for (let k = i; k <= lastSymIndex; ++k) {
+        result += text[k];
       }
     }
   }
@@ -83,40 +90,41 @@ const fetchFragment = (text, index) => {
 /////////////////////////////////////////////////////////
 
 // CASE: string with initial and trailing whitespace symbols
-fetchFragment('   Several drinks make me like a mad monkey!   ', 10);
+//fetchFragment('   Several drinks make me like a mad monkey!   ', 10);
 
 
 // CASE: text with several lines
 /*
 fetchFragment(`Forest Gamp likes sweets.
 But he also likes to eat meat and vegetables.
-It's cool!`, 4);
+It's cool! `, 14);
 */
 
 
 // CASE: text with several lines without reverse apostrophes
 // NOTE: this presents fragment via console in multiline form as example
 /*
-const res = fetchFragment('Forest Gamp likes sweets.\nBut he also likes to eat meat and vegetables.\nIt\'s cool!', 8);
+const res = fetchFragment(' Forest Gamp likes sweets.\nBut he also likes to eat meat and vegetables.\nIt\'s cool!', 21);
 console.log(res);
 */
 
-// CASE: one word
-//fetchFragment('Serenity', 2);
+// CASE: one word, last index (index === lastSymIndex)
+//fetchFragment('Serenity', 7);
 
 
 // CASE: big text example
-//fetchFragment(testText, 457);
+//fetchFragment(testText, 150);
 
 
 // CASE: float value received as an index
 //fetchFragment('Some things make me no serious a little...', 4.57);
 
 
-// CASE: invalid data example
-//fetchFragment(0.7000, 0); // test!
+// CASE: invalid text data example
+//fetchFragment(0.7000, 4);
 
 
 /////////////////////////////////////////////////
 // FEATURES TO-DO (Tmp)
 // -case with index '5' - remove spaces after all
+// instruction 'return result' may be placed in 'if' statement above
