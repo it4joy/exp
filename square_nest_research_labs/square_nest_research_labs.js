@@ -12,6 +12,7 @@ const testText = `Ingate – крупнейший Digital Marketing Integrator, 
 // RegExp for normalization (trims starting and ending spaces)
 const regExpSpaces = /^\s{1,}|\s{1,}$/g;
 
+// function
 const fetchFragment = (text, index) => {
   // initial values
   let result = '';
@@ -57,16 +58,16 @@ const fetchFragment = (text, index) => {
         }
 
         // gets all on the right of whitespace
-        serviceIndex = i + 1; // test it (case with index '11')
+        serviceIndex = i + 1;
       }
     }
 
     if (serviceIndex > 0) {
-      //console.log('service index > 0'); // test
       for (let i = serviceIndex; i <= lastSymIndex; ++i) {
         result += text[i];
       }
     } else {
+      // gets fragment starting of the right of index
       for (let i = index + 1; i <= lastSymIndex; ++i) {
         result += text[i];
       }
@@ -80,6 +81,7 @@ const fetchFragment = (text, index) => {
 // DEMO CASES
 // NOTE: uncomment case for checking how the function works
 /////////////////////////////////////////////////////////
+
 // CASE: string with initial and trailing whitespace symbols
 fetchFragment('   Several drinks make me like a mad monkey!   ', 10);
 
@@ -116,5 +118,5 @@ console.log(res);
 
 
 /////////////////////////////////////////////////
-// FEATURES TO-DO
+// FEATURES TO-DO (Tmp)
 // -case with index '5' - remove spaces after all
