@@ -1,7 +1,3 @@
-/*
-Function returns whole word if index located inside it and part of the word if index is before first whitespace or function gets word as a first argument
-*/
-
 const testText_1 = '   Several drinks make me like a mad monkey!   ';
 const testText_2 = ' theory ';
 
@@ -13,13 +9,16 @@ const getFragment = (text, index) => {
   let result = '';
   let serviceIndex = 0;
   let validity = false;
-
+  
   // removes spaces from start and end if it's a string
   if ( typeof(text) === 'string' ) {
     text = text.replace(regExpSpaces, '');
   } else {
     return 'The 1st argument must be a string.'
   }
+
+  // gets index of the last symbol after normalization
+  const lastSymIndex = text.length - 1;
 
   // validation
   if (text.length < 2) {
@@ -30,6 +29,8 @@ const getFragment = (text, index) => {
     return 'The 2nd argument (index) must be only an integer number!';
   } else if (index < 0) {
     return 'Index must be more than or equal to null.';
+  } else if (index > lastSymIndex) {
+    return `Index must be less than or equal to index of the last symbol: ${lastSymIndex}`;
   } else {
     validity = true;
   }
@@ -52,6 +53,24 @@ const getFragment = (text, index) => {
 
         // gets all on the right of whitespace
         serviceIndex = i + 1;
+
+        // the end of sentence
+        if (nextSpaceIndex === -1) {
+          nextSpaceIndex = lastSymIndex;
+        }
+
+        // word before last space
+        let lastSpaceIndex = 0;
+        for (let i = lastSymIndex; i > index; --i) {
+          console.log(text[i]); // test
+          if (text[i] === ' ') {
+            lastSpaceIndex = i;
+          }
+        }
+
+        if (index + 1 === lastSpaceIndex) {
+          nextSpaceIndex = lastSpaceIndex;
+        }
       } else if (text[index] !== ' ' && index < firstSpaceIndex) {
         // case: index of last symbol before first whitespace
         if (text[index + 1] === ' ') {
@@ -68,8 +87,6 @@ const getFragment = (text, index) => {
       }
     // 'text' is a word
     } else {
-      let lastSymIndex = text.length - 1;
-
       if (index === lastSymIndex) {
         return text[index];
       } else {
@@ -90,7 +107,7 @@ const getFragment = (text, index) => {
 
 //getFragment(testText_2, 2);
 
-//getFragment('   Several drinks make me like a mad monkey!   ', 10);
+getFragment('   Several drinks make me like a mad monkey!   ', 32);
 
 /*
 getFragment(`Forest Gamp likes sweets.
