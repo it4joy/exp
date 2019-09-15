@@ -1,24 +1,34 @@
 const testText_1 = '   Several drinks make me like a mad monkey!   ';
 const testText_2 = ' theory ';
 
-// RegExp for normalization (trims starting and ending spaces)
-const regExpSpaces = /^\s{1,}|\s{1,}$/g;
+// RegExp for normalization (trims starting and ending spaces and deletes spacing symbols inside string if their amount is more than one)
+const regExpSpaces1 = /^\s{1,}|\s{1,}$/g;
+const regExpSpaces2 = /\s{2,}/g;
 
+// normalizing function (simple)
+const normalizeString = (str) => {
+  str = str.replace(regExpSpaces1, '');
+  str = str.replace(regExpSpaces2, ' ');
+  return str;
+};
+
+// main function
 const getFragment = (text, index) => {
   // initial values
   let result = '';
   let serviceIndex = 0;
   let validity = false;
-  
-  // removes spaces from start and end if it's a string
+
+// removes spaces from start and end if it's a string
   if ( typeof(text) === 'string' ) {
-    text = text.replace(regExpSpaces, '');
+    text = normalizeString(text);
   } else {
     return 'The 1st argument must be a string.'
   }
 
   // gets index of the last symbol after normalization
   const lastSymIndex = text.length - 1;
+  console.log(`last symbol index: ${lastSymIndex}`); // test
 
   // validation
   if (text.length < 2) {
@@ -38,6 +48,7 @@ const getFragment = (text, index) => {
   if (validity === true) {
     // finds first space (after 1st word)
     let firstSpaceIndex = text.indexOf(' ');
+    let lastSpaceIndex = 0;
     let nextSpaceIndex = 0;
 
     // 'text' is sentence
@@ -56,17 +67,17 @@ const getFragment = (text, index) => {
 
         // the end of sentence
         if (nextSpaceIndex === -1) {
-          nextSpaceIndex = lastSymIndex;
+          nextSpaceIndex = lastSymIndex + 1; // check!
         }
 
         // word before last space
-        let lastSpaceIndex = 0;
         for (let i = lastSymIndex; i > index; --i) {
-          console.log(text[i]); // test
+          //console.log(text[i]); // test
           if (text[i] === ' ') {
             lastSpaceIndex = i;
           }
         }
+        console.log(`last space index: ${lastSpaceIndex}`); // test
 
         if (index + 1 === lastSpaceIndex) {
           nextSpaceIndex = lastSpaceIndex;
@@ -81,11 +92,26 @@ const getFragment = (text, index) => {
         nextSpaceIndex = text.indexOf(' ', index);
         return text.substring(index, nextSpaceIndex);
       } else {
-        index = index + 1;
-        nextSpaceIndex = text.indexOf(' ', index);
-        return text.substring(index, nextSpaceIndex);
+        // last space (check!)
+        if (text[index] === ' ' && index > firstSpaceIndex) {
+          for (let i = lastSymIndex; i >= index; --i) {
+            if (text[i] === ' ') {
+                lastSpaceIndex = i;
+            }
+          }
+          console.log(`index: ${index}`); // test
+          console.log(`last space index: ${lastSpaceIndex}`);
+
+          if (index === lastSpaceIndex) {
+            return 'last space: ' + text.substring(index + 1, lastSymIndex + 1); // check!
+          } else {
+            index = index + 1;
+            nextSpaceIndex = text.indexOf(' ', index);
+            return 'result: ' + text.substring(index,     nextSpaceIndex);
+          }
+        }
       }
-    // 'text' is a word
+    // 'text' is a word (OK)
     } else {
       if (index === lastSymIndex) {
         return text[index];
@@ -96,7 +122,8 @@ const getFragment = (text, index) => {
     }
 
     if (serviceIndex > 0) {
-      return text.substring(serviceIndex, nextSpaceIndex);
+      //console.log(nextSpaceIndex); // test
+      return 'tr: ' + text.substring(serviceIndex, nextSpaceIndex);
     }
   }
 };
@@ -107,7 +134,8 @@ const getFragment = (text, index) => {
 
 //getFragment(testText_2, 2);
 
-getFragment('   Several drinks make me like a mad monkey!   ', 32);
+// cases(arg 2): 40; 0; 4; 5; 6; 7; 10; 13; 14; 18; 20; 22; 24; 27; 28; 31; 32; 33!; 34; 
+//getFragment('   Several drinks make me like a mad monkey!   ', 33);
 
 /*
 getFragment(`Forest Gamp likes sweets.
@@ -115,9 +143,28 @@ But he also likes to eat meat and vegetables.
 It's cool! `, 14);
 */
 
+//getFragment(' something went good   ', 11); // OK
+//getFragment(' something went good   ', 8); // OK
+//getFragment(' something went good   ', 4); // OK
+//getFragment(' something went good   ', 9); // OK
+//getFragment(' something went good   ', 13); // OK
+// last space
+//getFragment(' something went good   ', 14);
+// the end of sentence
+//getFragment(' something went good   ', 16);
+
 // last index
-//getFragment('Serenity', 7);
+//getFragment(' Serenity  ', 7);
+
+// index (returns the part from the right of index)
+//getFragment(' Serenity  ', 4);
 
 //getFragment('Some things make me no serious a little...', 4.57);
 
 //getFragment(0.7000, 4);
+
+// checking of function 'normalizeString()'
+//normalizeString('    Text with  unnecessary whitespaces,  simple      implementation  ');
+
+////////////////////////////////////////////
+// FEATURES TO-DO
