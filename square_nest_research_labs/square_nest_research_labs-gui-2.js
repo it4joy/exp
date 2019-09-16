@@ -96,6 +96,15 @@ $(function() {
 
             // 'text' is sentence
             if (firstSpaceIndex !== -1) {
+                // finds last space index
+                for (let i = lastSymIndex; i > firstSpaceIndex; --i) {
+                    //console.log(i); // test
+                    if (textAreaVal[i] === ' ') {
+                        lastSpaceIndex = i;
+                    }
+                }
+                console.log(`last space index: ${lastSpaceIndex}`); // test
+
                 if (textAreaVal[positionInputVal] !== ' ' && positionInputVal > firstSpaceIndex) {
                     nextSpaceIndex = textAreaVal.indexOf(' ', positionInputVal);
 
@@ -114,41 +123,36 @@ $(function() {
                     }
 
                     // word before last space
-                    for (let i = lastSymIndex; i > positionInputVal; --i) {
+                    /* for (let i = lastSymIndex; i > positionInputVal; --i) {
                         if (textAreaVal[i] === ' ') {
                             lastSpaceIndex = i;
                         }
-                    }
+                    } */
 
                     if (positionInputVal + 1 === lastSpaceIndex) {
                         nextSpaceIndex = lastSpaceIndex;
                     }
                 } else if (textAreaVal[positionInputVal] !== ' ' && positionInputVal < firstSpaceIndex) {
                     // case: index of last symbol before first whitespace
-                    if (textAreaVal[positionInputVal + 1] === ' ') {
+                    if (positionInputVal + 1 === firstSpaceIndex) {
                         result = textAreaVal[positionInputVal];
+                        console.log(`1: ${result}`); // test
+                    } else {
+                        positionInputVal = positionInputVal + 1;
+                        nextSpaceIndex = firstSpaceIndex;
+                        result = textAreaVal.substring(positionInputVal, nextSpaceIndex);
+                        console.log(`2: ${result}`); // test
                     }
-
-                    positionInputVal = positionInputVal + 1;
-                    nextSpaceIndex = textAreaVal.indexOf(' ', positionInputVal);
-                    result = textAreaVal.substring(positionInputVal, nextSpaceIndex);
                 } else {
-                    if (textAreaVal[positionInputVal] === ' ' && positionInputVal > firstSpaceIndex) {
-                        // finds last space index
-                        for (let i = lastSymIndex; i >= positionInputVal; --i) {
-                            if (textAreaVal[i] === ' ') {
-                                lastSpaceIndex = i;
-                            }
-                        }
-                        //console.log(`index: ${index}`); // test
-                        //console.log(`last space index: ${lastSpaceIndex}`);
-
+                    if (textAreaVal[positionInputVal] === ' ' && positionInputVal >= firstSpaceIndex) {
                         if (positionInputVal === lastSpaceIndex) {
-                            result = text.substring(positionInputVal + 1, lastSymIndex + 1); // check!
+                            result = textAreaVal.substring(positionInputVal + 1, lastSymIndex + 1); // check!
+                            console.log(`3: ${result}`); // test
                         } else {
                             positionInputVal = positionInputVal + 1;
                             nextSpaceIndex = textAreaVal.indexOf(' ', positionInputVal);
                             result = textAreaVal.substring(positionInputVal, nextSpaceIndex);
+                            console.log(`4: ${result}`); // test
                         }
                     }
                 }
@@ -156,18 +160,21 @@ $(function() {
                 // 'text' is a word
                 if (positionInputVal === lastSymIndex) {
                     result = textAreaVal[positionInputVal];
+                    console.log(`5: ${result}`); // test
                 } else {
                     positionInputVal = positionInputVal + 1;
                     result = textAreaVal.substring(positionInputVal);
+                    console.log(`6: ${result}`); // test
                 }
             }
 
-            if (serviceIndex > 0) {
+            if (textAreaVal[positionInputVal] !== ' ' && serviceIndex > 0) {
                 result = textAreaVal.substring(serviceIndex, nextSpaceIndex);
+                console.log(`7: ${result}`); // test
             }
         }
 
         resultArea.val(result);
-        //console.log(result);
+        console.log(`Fin: ${result}`); // test
     });
 });
