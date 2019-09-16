@@ -107,7 +107,7 @@ const getFragment = (text, index) => {
           } else {
             index = index + 1;
             nextSpaceIndex = text.indexOf(' ', index);
-            return 'result: ' + text.substring(index,     nextSpaceIndex);
+            return 'result: ' + text.substring(index, nextSpaceIndex);
           }
         }
       }
