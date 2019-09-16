@@ -132,6 +132,11 @@ $(function() {
                     if (positionInputVal + 1 === lastSpaceIndex) {
                         nextSpaceIndex = lastSpaceIndex;
                     }
+                    
+                    if (serviceIndex > 0) {
+                        result = textAreaVal.substring(serviceIndex, nextSpaceIndex);
+                        console.log(`7: ${result}`); // test
+                    }
                 } else if (textAreaVal[positionInputVal] !== ' ' && positionInputVal < firstSpaceIndex) {
                     // case: index of last symbol before first whitespace
                     if (positionInputVal + 1 === firstSpaceIndex) {
@@ -166,11 +171,6 @@ $(function() {
                     result = textAreaVal.substring(positionInputVal);
                     console.log(`6: ${result}`); // test
                 }
-            }
-
-            if (textAreaVal[positionInputVal] !== ' ' && serviceIndex > 0) {
-                result = textAreaVal.substring(serviceIndex, nextSpaceIndex);
-                console.log(`7: ${result}`); // test
             }
         }
 
