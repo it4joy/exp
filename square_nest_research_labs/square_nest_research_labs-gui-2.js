@@ -93,16 +93,20 @@ $(function() {
         if (validity === true) {
             // finds first space (after 1st word)
             firstSpaceIndex = textAreaVal.indexOf(' ');
+            console.log(`first space index: ${firstSpaceIndex}`); // test
 
             // 'text' is sentence
             if (firstSpaceIndex !== -1) {
                 // finds last space index
-                for (let i = lastSymIndex; i > firstSpaceIndex; --i) {
-                    //console.log(i); // test
-                    if (textAreaVal[i] === ' ') {
-                        lastSpaceIndex = i;
-                    }
+                let i = lastSymIndex;
+
+                while (textAreaVal[i] !== ' ') {
+                    --i;
                 }
+
+                lastSpaceIndex = i;
+
+                console.log(`last symbol index: ${lastSymIndex}`); // test
                 console.log(`last space index: ${lastSpaceIndex}`); // test
 
                 if (textAreaVal[positionInputVal] !== ' ' && positionInputVal > firstSpaceIndex) {
